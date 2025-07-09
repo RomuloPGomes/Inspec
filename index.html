@@ -91,7 +91,32 @@
                 <button class="tab" data-tab="registros" onclick="showTab('registros', this)" disabled>Registros</button>
             </div>
             <div id="inspecoes" class="tab-content active">
-                <div class="section"><div class="section-header"><h3><span class="icon">📂</span> Gerenciar Inspeção</h3></div><div class="form-group"><label for="inspecaoAtiva">Selecionar Inspeção:</label><select id="inspecaoAtiva"></select></div><div class="form-row"><button type="button" class="btn btn-link" id="novaInspecaoBtn">➕ Nova Inspeção</button><button type="button" class="btn btn-secondary" id="deletarInspecaoBtn">🗑️ Deletar Inspeção Ativa</button></div></div>
+                <div class="section">
+                    <div class="section-header">
+                        <h3><span class="icon">📂</span> Gerenciar Inspeção</h3>
+                    </div>
+                    <div class="form-group">
+                        <label for="inspecaoAtiva">Selecionar Inspeção:</label>
+                        <select id="inspecaoAtiva"></select>
+                    </div>
+                    <div class="form-row">
+                        <button type="button" class="btn btn-link" id="novaInspecaoBtn">➕ Nova Inspeção</button>
+                        <button type="button" class="btn btn-secondary" id="deletarInspecaoBtn">🗑️ Deletar Inspeção Ativa</button>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-header">
+                        <h3><span class="icon">📊</span> Importar/Exportar Dados</h3>
+                    </div>
+                    <div class="form-row">
+                        <button type="button" class="btn btn-link" id="downloadTemplateBtn">📥 Baixar Planilha Modelo</button>
+                        <button type="button" class="btn btn-link" id="importDataBtn">📤 Importar Planilha</button>
+                    </div>
+                    <div id="importStatus" class="form-group" style="display: none;">
+                        <p id="importMessage" style="color: #28a745; font-weight: 600; text-align: center; padding: 10px; background: #d4edda; border-radius: 8px;"></p>
+                    </div>
+                </div>
             </div>
             <div id="dados_gerais" class="tab-content">
                  <div class="section">
@@ -149,6 +174,15 @@
     
     <div id="legendaModal" class="modal"><div class="modal-content"><div class="modal-header"><h2>Legendas dos Elementos</h2><span class="close-button">&times;</span></div><div class="legenda-table"><table><tr><th>Sigla</th><th>Descrição</th></tr><tr><td>AA</td><td>Aparelho de apoio</td></tr><tr><td>AB</td><td>Abóbada</td></tr><tr><td>AC</td><td>Acesso</td></tr><tr><td>AD</td><td>Aduela</td></tr><tr><td>AL</td><td>Muro de ala</td></tr><tr><td>ALE</td><td>Alma externa (caixão)</td></tr><tr><td>ALI</td><td>Alma interna (caixão)</td></tr><tr><td>AP</td><td>Apoio</td></tr><tr><td>BÇ</td><td>Berço</td></tr><tr><td>BL</td><td>Balanço longitudinal</td></tr><tr><td>BLC</td><td>Bloco de fundação</td></tr><tr><td>BR</td><td>Barreira rígida</td></tr><tr><td>BU</td><td>Bueiro</td></tr><tr><td>BUZ</td><td>Buzinote</td></tr><tr><td>BZ</td><td>Banzo</td></tr><tr><td>CEL</td><td>Célula</td></tr><tr><td>CO</td><td>Cortina</td></tr><tr><td>DG</td><td>Dente gerber</td></tr><tr><td>DI</td><td>Diagonal</td></tr><tr><td>DM</td><td>Defensa metálica</td></tr><tr><td>DR</td><td>Drenagem</td></tr>
 <tr><td>EB</td><td>Emboque</td></tr><tr><td>ENC</td><td>Encontro</td></tr><tr><td>ET</td><td>Estaca</td></tr><tr><td>GC</td><td>Guarda-corpos</td></tr><tr><td>GR</td><td>Guarda-rodas</td></tr><tr><td>JD</td><td>Junta de dilatação</td></tr><tr><td>LB</td><td>Laje em balanço (transversal)</td></tr></table><table><tr><th>Sigla</th><th>Descrição</th></tr><tr><td>LI</td><td>Laje inferior</td></tr><tr><td>LS</td><td>Laje superior</td></tr><tr><td>LT</td><td>Laje de transição</td></tr><tr><td>MF</td><td>Meio-Fio</td></tr><tr><td>MT</td><td>Montante</td></tr><tr><td>P</td><td>Pilar</td></tr><tr><td>PA</td><td>Parede</td></tr><tr><td>PC</td><td>Piso de concreto</td></tr><tr><td>PF</td><td>Pavimento fexível</td></tr><tr><td>PIL</td><td>Pilone</td></tr><tr><td>PR</td><td>Pavimento rígido</td></tr><tr><td>PS</td><td>Passeio</td></tr><tr><td>SAP</td><td>Sapata</td></tr><tr><td>SH</td><td>Sinalização Horizontal</td></tr><tr><td>SJ</td><td>Sarjeta</td></tr><tr><td>SV</td><td>Sinalização Vertical</td></tr><tr><td>TA</td><td>Talude</td></tr><tr><td>TRE</td><td>Treliça</td></tr><tr><td>TUB</td><td>Tubulão</td></tr><tr><td>V</td><td>Vão</td></tr><tr><td>VA</td><td>Valeta</td></tr><tr><td>VL</td><td>Viga longarina</td></tr><tr><td>VLR</td><td>Viga longarina de rampa</td></tr><tr><td>VLT</td><td>Viga longarina de travessia</td></tr><tr><td>VT</td><td>Viga transversina</td></tr><tr><td>VTR</td><td>Viga travessa</td></tr><tr><td>VTRAV</td><td>Viga de travamento</td></tr></table></div></div></div>
+
+    <!-- Input file oculto para importar planilha -->
+    <input type="file" id="fileInput" accept=".xlsx,.xls" style="display: none;">
+
+    <!-- Input file oculto para importar planilha -->
+    <input type="file" id="fileInput" accept=".xlsx,.xls" style="display: none;">
+
+    <!-- Input file oculto para importar planilha -->
+    <input type="file" id="fileInput" accept=".xlsx,.xls" style="display: none;">
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -490,6 +524,157 @@
                 XLSX.writeFile(wb, `${nomeArquivo}.xlsx`);
             });
             
+            // Funções para importar/exportar planilha
+            const downloadTemplateBtn = document.getElementById('downloadTemplateBtn');
+            const importDataBtn = document.getElementById('importDataBtn');
+            const fileInput = document.getElementById('fileInput');
+            const importStatus = document.getElementById('importStatus');
+            const importMessage = document.getElementById('importMessage');
+
+            // Gerar planilha modelo
+            downloadTemplateBtn.addEventListener('click', () => {
+                const headers = ['Concessionária', 'Nome da Obra', 'Rodovia', 'KM+M'];
+                const sampleData = [
+                    ['Concessionária Exemplo', 'Obra Exemplo', 'BR-101', '50+300'],
+                    ['', '', '', ''], // Linha em branco para preenchimento
+                    ['', '', '', ''], // Linha em branco para preenchimento
+                    ['', '', '', ''], // Linha em branco para preenchimento
+                    ['', '', '', '']  // Linha em branco para preenchimento
+                ];
+
+                const ws = XLSX.utils.aoa_to_sheet([headers, ...sampleData]);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "Dados Gerais");
+                
+                // Ajustar largura das colunas
+                ws['!cols'] = [
+                    { width: 20 }, // Concessionária
+                    { width: 25 }, // Nome da Obra
+                    { width: 15 }, // Rodovia
+                    { width: 15 }  // KM+M
+                ];
+
+                XLSX.writeFile(wb, 'modelo_dados_gerais.xlsx');
+            });
+
+            // Importar planilha
+            importDataBtn.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const sheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[sheetName];
+                        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                        // Validar cabeçalhos
+                        const expectedHeaders = ['Concessionária', 'Nome da Obra', 'Rodovia', 'KM+M'];
+                        const headers = jsonData[0];
+                        
+                        if (!headers || headers.length < 4) {
+                            showImportMessage('❌ Formato inválido. Use a planilha modelo.', 'error');
+                            return;
+                        }
+
+                        // Verificar se os cabeçalhos estão corretos
+                        const isValidFormat = expectedHeaders.every((header, index) => 
+                            headers[index] && headers[index].toString().toLowerCase().includes(header.toLowerCase())
+                        );
+
+                        if (!isValidFormat) {
+                            showImportMessage('❌ Cabeçalhos inválidos. Use a planilha modelo.', 'error');
+                            return;
+                        }
+
+                        // Processar dados
+                        let importedCount = 0;
+                        let skippedCount = 0;
+
+                        for (let i = 1; i < jsonData.length; i++) {
+                            const row = jsonData[i];
+                            if (!row || row.length < 4) continue;
+
+                            const concessionaria = row[0] || '';
+                            const nomeObra = row[1] || '';
+                            const rodovia = row[2] || '';
+                            const km = row[3] || '';
+
+                            // Validar dados obrigatórios
+                            if (!rodovia || !km) {
+                                skippedCount++;
+                                continue;
+                            }
+
+                            // Criar ID único
+                            const newId = `${rodovia.trim()}_${km.trim()}`.replace(/ /g, '_');
+                            
+                            // Verificar se já existe
+                            if (appState.db[newId]) {
+                                skippedCount++;
+                                continue;
+                            }
+
+                            // Criar nova inspeção
+                            appState.db[newId] = {
+                                dadosGerais: {
+                                    concessionaria: concessionaria,
+                                    nome_obra: nomeObra,
+                                    rodovia: rodovia,
+                                    km: km,
+                                    data: new Date().toISOString().split('T')[0],
+                                    inspetor: '',
+                                    sentido: '',
+                                    latitude: '',
+                                    longitude: ''
+                                },
+                                contadores: { camera: 1, drone: 1 },
+                                registros: []
+                            };
+
+                            importedCount++;
+                        }
+
+                        saveDb();
+                        populateInspecaoSelector();
+                        
+                        if (importedCount > 0) {
+                            showImportMessage(`✅ ${importedCount} inspeção(ões) importada(s) com sucesso!${skippedCount > 0 ? ` ${skippedCount} linha(s) ignorada(s).` : ''}`, 'success');
+                        } else {
+                            showImportMessage('⚠️ Nenhuma inspeção foi importada. Verifique os dados.', 'warning');
+                        }
+
+                        // Limpar input
+                        fileInput.value = '';
+
+                    } catch (error) {
+                        console.error('Erro ao importar:', error);
+                        showImportMessage('❌ Erro ao processar o arquivo. Verifique o formato.', 'error');
+                    }
+                };
+
+                reader.readAsArrayBuffer(file);
+            });
+
+            function showImportMessage(message, type) {
+                importMessage.textContent = message;
+                importMessage.style.color = type === 'success' ? '#28a745' : type === 'warning' ? '#ffc107' : '#dc3545';
+                importMessage.style.background = type === 'success' ? '#d4edda' : type === 'warning' ? '#fff3cd' : '#f8d7da';
+                importStatus.style.display = 'block';
+                
+                // Esconder após 5 segundos
+                setTimeout(() => {
+                    importStatus.style.display = 'none';
+                }, 5000);
+            }
+
             const initApp = () => {
                 loadDb();
                 populateInspecaoSelector();
